@@ -1,0 +1,33 @@
+{
+  "model": "logistic regression (statsmodels), standardised trailing-90d features",
+  "features": [
+    "late_rate_90d",
+    "review_90d",
+    "dispatch_90d",
+    "breach_90d",
+    "cancel_90d",
+    "orders_90d"
+  ],
+  "label": "next month: >=5 orders AND (late rate >= 0.15 OR avg review <= 3.0)",
+  "queue_cap_per_month": 20,
+  "train_period": "label months 2017",
+  "test_period": "label months Jan-May 2018",
+  "coefficients": {
+    "const": -2.386,
+    "late_rate_90d": 0.065,
+    "review_90d": -0.1,
+    "dispatch_90d": 0.181,
+    "breach_90d": 0.085,
+    "cancel_90d": -0.041,
+    "orders_90d": 0.018
+  },
+  "test_base_rate": 0.183,
+  "queue_hit_rate_at_k": 0.26,
+  "queue_lift_at_k": 1.42,
+  "share_of_bad_caught_at_k": 0.076,
+  "old_threshold_rule_on_same_test": {
+    "precision": 0.199,
+    "recall": 0.596,
+    "flagged_share": 0.549
+  }
+}

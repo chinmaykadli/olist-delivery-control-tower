@@ -1,0 +1,42 @@
+{
+  "analysis_window": "Sep 2016 - May 2018",
+  "orders_analysed": 77867,
+  "late_orders": 5862,
+  "late_rate": 0.0753,
+  "on_time_rate": 0.9247,
+  "avg_review": 4.12,
+  "avg_delivery_days": 13.4,
+  "avg_promised_days": 25.1,
+  "avg_days_late_when_late": 11.1,
+  "items_gmv_brl": 10658594.0,
+  "freight_gmv_brl": 1739940.0,
+  "late_items_gmv_brl": 884289.0,
+  "multiseller_share_of_orders": 0.0123,
+  "dispatch_vs_transit": {
+    "on_time": {
+      "dispatch": 3.1,
+      "transit": 8.5
+    },
+    "late": {
+      "dispatch": 6.0,
+      "transit": 29.5
+    }
+  },
+  "sellers_analysed_min30_orders": 511,
+  "worst_10pct_sellers_share_of_late_orders_within_group": 0.155,
+  "worst_10pct_sellers_share_of_all_late_orders": 0.127,
+  "worst_10pct_late_rate": 0.1922,
+  "rest_late_rate": 0.068,
+  "forecast_appendix": {
+    "holdout": "Mar-May 2018",
+    "winning_method_by_scope": {
+      "all orders": "naive last month",
+      "bed_bath_table": "naive last month",
+      "computers_accessories": "3-month moving average",
+      "furniture_decor": "3-month moving average",
+      "health_beauty": "naive last month",
+      "sports_leisure": "3-month moving average"
+    },
+    "mape_all_orders_pct": 4.3
+  }
+}

@@ -1,0 +1,6 @@
+lateness_band,orders,avg_review,share_1_2_star,avg_review_written_after_delivery,avg_review_written_before_delivery,pct_reviews_written_before_delivery
+on time,71579,4.272,0.094,4.27,4.0,0.5
+1-3 days,1560,3.222,0.342,3.47,2.31,21.3
+4-7 days,1541,2.082,0.677,3.47,1.94,90.7
+8-14 days,1352,1.645,0.808,3.0,1.64,99.9
+15+ days,1272,1.706,0.788,,1.71,100.0
