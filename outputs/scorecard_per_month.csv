@@ -1,0 +1,15 @@
+rule,month,sellers_scored,base_rate,hit_rate_at_20
+A: sort by trailing late rate,2018-01-01,241,0.129,0.15
+A: sort by trailing late rate,2018-02-01,254,0.409,0.65
+A: sort by trailing late rate,2018-03-01,256,0.574,0.75
+A: sort by trailing late rate,2018-04-01,268,0.086,0.35
+A: sort by trailing late rate,2018-05-01,250,0.144,0.3
+A: sort by trailing late rate,2018-06-01,229,0.031,0.05
+A: sort by trailing late rate,2018-07-01,235,0.077,0.1
+C: logistic model (5 features),2018-01-01,241,0.129,0.25
+C: logistic model (5 features),2018-02-01,254,0.409,0.6
+C: logistic model (5 features),2018-03-01,256,0.574,0.8
+C: logistic model (5 features),2018-04-01,268,0.086,0.25
+C: logistic model (5 features),2018-05-01,250,0.144,0.15
+C: logistic model (5 features),2018-06-01,229,0.031,0.1
+C: logistic model (5 features),2018-07-01,235,0.077,0.15

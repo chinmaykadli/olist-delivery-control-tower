@@ -1,0 +1,21 @@
+queue_rank,seller_id,main_lane,orders_90d,late_rate_90d,breach_90d,dispatch_90d,review_90d,reason_code,owner,status
+1,c4d51195486dc781531876a7d00453d8,SP -> PE,12,0.417,0.25,7.0,3.917,misses own shipping limit,Seller Ops,to contact
+2,1336efc61c316ddf92c899eb817f7cae,SP -> SP,10,0.3,0.0,2.8,3.6,late in transit: lane or carrier,Seller Ops,to contact
+3,beadbee30901a7f61d031b6b686095ad,SP -> SP,56,0.268,0.321,7.839,3.839,misses own shipping limit,Seller Ops,to contact
+4,b74d1c09cb380e1d03a6f859c6f4224b,RJ -> SP,12,0.25,0.0,0.917,4.083,late in transit: lane or carrier,Seller Ops,to contact
+5,06a2c3af7b3aee5d69171b0e14f0ee87,MA -> SP,227,0.225,0.357,5.85,3.982,misses own shipping limit,Seller Ops,to contact
+6,903037660cf848a717166eb7a06d616e,SP -> SP,15,0.2,0.0,2.6,3.667,late in transit: lane or carrier,Seller Ops,to contact
+7,0cbcee27c791afa0cdcb08587a2013a8,MG -> RJ,10,0.2,0.1,2.0,4.2,late in transit: lane or carrier,Seller Ops,to contact
+8,3935fe5fe0f82787a9dcb8deb62be09d,SP -> RJ,10,0.2,0.0,2.3,3.5,"low reviews, check product or service",Seller Ops,to contact
+9,e9d99831abad74458942f21e16f33f92,SP -> SP,10,0.2,0.1,3.2,3.8,late in transit: lane or carrier,Seller Ops,to contact
+10,28f10b1c5e5abb9d4857745bede6147c,SP -> SP,16,0.188,0.0,1.375,4.0,late in transit: lane or carrier,Seller Ops,to contact
+11,d17f467e4bf608a510c20d82f4ba3b6b,RS -> PR,11,0.182,0.273,5.364,4.273,misses own shipping limit,Seller Ops,to contact
+12,59b22a78efb79a4797979612b885db36,MG -> SP,19,0.158,0.105,1.737,4.105,late in transit: lane or carrier,Seller Ops,to contact
+13,643214e62b870443ccbe55ab29a4dccf,SP -> SP,19,0.158,0.0,1.632,4.368,late in transit: lane or carrier,Seller Ops,to contact
+14,bbad7e518d7af88a0897397ffdca1979,SP -> SP,19,0.158,0.158,5.368,3.368,slow handover to carrier,Seller Ops,to contact
+15,1a932caad4f9d804097d7f8e615baed1,SP -> BA,13,0.154,0.0,1.308,3.615,late in transit: lane or carrier,Seller Ops,to contact
+16,23d7c96d4a1160db1c726b248601b25a,SP -> SP,13,0.154,0.077,4.231,3.231,"low reviews, check product or service",Seller Ops,to contact
+17,7fc87cc3e89b3d1d5cabdca32f8485aa,SP -> SP,13,0.154,0.077,14.692,3.769,slow handover to carrier,Seller Ops,to contact
+18,ce7d1888639e6fb06b2749cbfdac1ff7,MG -> RJ,21,0.143,0.048,2.667,4.333,late in transit: lane or carrier,Seller Ops,to contact
+19,aba1721a889e04decc910aa13b768ef4,SP -> SP,14,0.143,0.071,2.571,4.429,late in transit: lane or carrier,Seller Ops,to contact
+20,abe42c5d03695b4257b5c6cbf4e6784e,RJ -> SP,14,0.143,0.0,1.786,4.0,late in transit: lane or carrier,Seller Ops,to contact

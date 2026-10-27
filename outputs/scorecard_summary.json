@@ -1,33 +1,64 @@
 {
-  "model": "logistic regression (statsmodels), standardised trailing-90d features",
+  "question": "which ranking fills a 20-seller monthly call list with next-month problem sellers",
+  "label": "month M: >=5 orders AND (late rate >= 0.15 OR avg review <= 3.0); 1-4 order months dropped",
   "features": [
     "late_rate_90d",
     "review_90d",
     "dispatch_90d",
     "breach_90d",
-    "cancel_90d",
     "orders_90d"
   ],
-  "label": "next month: >=5 orders AND (late rate >= 0.15 OR avg review <= 3.0)",
+  "train_months": "2017-04-01 to 2017-12-01",
+  "test_months": "2018-01-01 to 2018-07-01",
   "queue_cap_per_month": 20,
-  "train_period": "label months 2017",
-  "test_period": "label months Jan-May 2018",
-  "coefficients": {
-    "const": -2.386,
-    "late_rate_90d": 0.065,
-    "review_90d": -0.1,
-    "dispatch_90d": 0.181,
-    "breach_90d": 0.085,
-    "cancel_90d": -0.041,
-    "orders_90d": 0.018
+  "train_hit_rate_at_k": {
+    "A: sort by trailing late rate": 0.167,
+    "B: sort by Wilson lower bound": 0.167
   },
-  "test_base_rate": 0.183,
-  "queue_hit_rate_at_k": 0.26,
-  "queue_lift_at_k": 1.42,
-  "share_of_bad_caught_at_k": 0.076,
-  "old_threshold_rule_on_same_test": {
-    "precision": 0.199,
-    "recall": 0.596,
-    "flagged_share": 0.549
+  "queue_rule": "A: sort by trailing late rate",
+  "test_rows": 1733,
+  "test_base_rate": 0.211,
+  "queue_hit_rate_at_k": 0.336,
+  "queue_hit_rate_ci": [
+    0.263,
+    0.417
+  ],
+  "queue_lift_at_k": 1.59,
+  "queue_share_of_bad_caught": 0.128,
+  "queue_auc": [
+    0.58,
+    0.543,
+    0.613
+  ],
+  "model_hit_rate_at_k": 0.329,
+  "model_hit_rate_ci": [
+    0.256,
+    0.41
+  ],
+  "model_auc": [
+    0.613,
+    0.581,
+    0.644
+  ],
+  "model_coefficients": {
+    "const": -2.039,
+    "late_rate_90d": 0.169,
+    "review_90d": -0.105,
+    "dispatch_90d": 0.198,
+    "breach_90d": 0.135,
+    "orders_90d": -0.219
+  },
+  "model_pvalues": {
+    "const": 0.0,
+    "late_rate_90d": 0.034,
+    "review_90d": 0.226,
+    "dispatch_90d": 0.03,
+    "breach_90d": 0.12,
+    "orders_90d": 0.052
+  },
+  "gap1_sensitivity_hit_rate_at_k": {
+    "A: sort by trailing late rate": 0.3,
+    "B: sort by Wilson lower bound": 0.293,
+    "C: logistic model (5 features)": 0.329
   }
 }

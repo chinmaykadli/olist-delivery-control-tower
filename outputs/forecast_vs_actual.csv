@@ -1,37 +1,61 @@
 scope,method,month,actual,forecast,mape_pct
-all orders,naive last month,2018-03-01,7003,6555,4.3
-all orders,naive last month,2018-04-01,6798,6555,4.3
-all orders,naive last month,2018-05-01,6749,6555,4.3
-all orders,3-month moving average,2018-03-01,7003,6379,4.7
-all orders,3-month moving average,2018-04-01,6798,6668,4.7
-all orders,3-month moving average,2018-05-01,6749,6534,4.7
-bed_bath_table,naive last month,2018-03-01,649,587,4.1
-bed_bath_table,naive last month,2018-04-01,597,587,4.1
-bed_bath_table,naive last month,2018-05-01,594,587,4.1
-bed_bath_table,3-month moving average,2018-03-01,649,580,4.7
-bed_bath_table,3-month moving average,2018-04-01,597,617,4.7
-bed_bath_table,3-month moving average,2018-05-01,594,595,4.7
-health_beauty,naive last month,2018-03-01,605,595,5.0
-health_beauty,naive last month,2018-04-01,615,595,5.0
-health_beauty,naive last month,2018-05-01,662,595,5.0
-health_beauty,3-month moving average,2018-03-01,605,527,12.3
-health_beauty,3-month moving average,2018-04-01,615,561,12.3
-health_beauty,3-month moving average,2018-05-01,662,561,12.3
-sports_leisure,naive last month,2018-03-01,644,571,16.8
-sports_leisure,naive last month,2018-04-01,517,571,16.8
-sports_leisure,naive last month,2018-05-01,444,571,16.8
-sports_leisure,3-month moving average,2018-03-01,644,523,16.5
-sports_leisure,3-month moving average,2018-04-01,517,554,16.5
-sports_leisure,3-month moving average,2018-05-01,444,549,16.5
-computers_accessories,naive last month,2018-03-01,629,790,65.1
-computers_accessories,naive last month,2018-04-01,464,790,65.1
-computers_accessories,naive last month,2018-05-01,396,790,65.1
-computers_accessories,3-month moving average,2018-03-01,629,536,38.6
-computers_accessories,3-month moving average,2018-04-01,464,632,38.6
-computers_accessories,3-month moving average,2018-05-01,396,653,38.6
-furniture_decor,naive last month,2018-03-01,422,328,25.4
-furniture_decor,naive last month,2018-04-01,448,328,25.4
-furniture_decor,naive last month,2018-05-01,451,328,25.4
-furniture_decor,3-month moving average,2018-03-01,422,363,16.2
-furniture_decor,3-month moving average,2018-04-01,448,384,16.2
-furniture_decor,3-month moving average,2018-05-01,451,359,16.2
+all orders,naive last month,2018-03-01,7003,6555,5.4
+all orders,naive last month,2018-04-01,6798,6555,5.4
+all orders,naive last month,2018-05-01,6749,6555,5.4
+all orders,naive last month,2018-06-01,6096,6555,5.4
+all orders,naive last month,2018-07-01,6156,6555,5.4
+all orders,3-month moving average,2018-03-01,7003,6379,5.6
+all orders,3-month moving average,2018-04-01,6798,6668,5.6
+all orders,3-month moving average,2018-05-01,6749,6534,5.6
+all orders,3-month moving average,2018-06-01,6096,6527,5.6
+all orders,3-month moving average,2018-07-01,6156,6576,5.6
+bed_bath_table,naive last month,2018-03-01,649,587,7.3
+bed_bath_table,naive last month,2018-04-01,597,587,7.3
+bed_bath_table,naive last month,2018-05-01,594,587,7.3
+bed_bath_table,naive last month,2018-06-01,642,587,7.3
+bed_bath_table,naive last month,2018-07-01,508,587,7.3
+bed_bath_table,3-month moving average,2018-03-01,649,580,8.0
+bed_bath_table,3-month moving average,2018-04-01,597,617,8.0
+bed_bath_table,3-month moving average,2018-05-01,594,595,8.0
+bed_bath_table,3-month moving average,2018-06-01,642,597,8.0
+bed_bath_table,3-month moving average,2018-07-01,508,603,8.0
+health_beauty,naive last month,2018-03-01,605,595,10.8
+health_beauty,naive last month,2018-04-01,615,595,10.8
+health_beauty,naive last month,2018-05-01,662,595,10.8
+health_beauty,naive last month,2018-06-01,784,595,10.8
+health_beauty,naive last month,2018-07-01,697,595,10.8
+health_beauty,3-month moving average,2018-03-01,605,527,17.4
+health_beauty,3-month moving average,2018-04-01,615,561,17.4
+health_beauty,3-month moving average,2018-05-01,662,561,17.4
+health_beauty,3-month moving average,2018-06-01,784,550,17.4
+health_beauty,3-month moving average,2018-07-01,697,557,17.4
+sports_leisure,naive last month,2018-03-01,644,571,29.2
+sports_leisure,naive last month,2018-04-01,517,571,29.2
+sports_leisure,naive last month,2018-05-01,444,571,29.2
+sports_leisure,naive last month,2018-06-01,369,571,29.2
+sports_leisure,naive last month,2018-07-01,406,571,29.2
+sports_leisure,3-month moving average,2018-03-01,644,523,26.3
+sports_leisure,3-month moving average,2018-04-01,517,554,26.3
+sports_leisure,3-month moving average,2018-05-01,444,549,26.3
+sports_leisure,3-month moving average,2018-06-01,369,542,26.3
+sports_leisure,3-month moving average,2018-07-01,406,548,26.3
+computers_accessories,naive last month,2018-03-01,629,790,85.8
+computers_accessories,naive last month,2018-04-01,464,790,85.8
+computers_accessories,naive last month,2018-05-01,396,790,85.8
+computers_accessories,naive last month,2018-06-01,350,790,85.8
+computers_accessories,naive last month,2018-07-01,380,790,85.8
+computers_accessories,3-month moving average,2018-03-01,629,536,51.1
+computers_accessories,3-month moving average,2018-04-01,464,632,51.1
+computers_accessories,3-month moving average,2018-05-01,396,653,51.1
+computers_accessories,3-month moving average,2018-06-01,350,607,51.1
+computers_accessories,3-month moving average,2018-07-01,380,631,51.1
+furniture_decor,naive last month,2018-03-01,422,328,17.1
+furniture_decor,naive last month,2018-04-01,448,328,17.1
+furniture_decor,naive last month,2018-05-01,451,328,17.1
+furniture_decor,naive last month,2018-06-01,303,328,17.1
+furniture_decor,naive last month,2018-07-01,331,328,17.1
+furniture_decor,3-month moving average,2018-03-01,422,363,16.5
+furniture_decor,3-month moving average,2018-04-01,448,384,16.5
+furniture_decor,3-month moving average,2018-05-01,451,359,16.5
+furniture_decor,3-month moving average,2018-06-01,303,369,16.5
+furniture_decor,3-month moving average,2018-07-01,331,371,16.5

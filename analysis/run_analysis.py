@@ -5,9 +5,9 @@ Reads the DuckDB views built by build_db.py and writes:
   outputs/kpi_summary.json
   docs/img/*.png         - static charts for the README / dashboard
 
-Analysis window: purchases Sep 2016 - May 2018. Jun-Aug 2018 is excluded
-because its late orders were still in transit at the data cut-off
-(right-censoring; see README "Limits").
+Analysis window: purchases Sep 2016 - Jul 2018, read from v_params. Aug 2018
+onwards is excluded (too close to the data cut-off); the worst-case bound for
+Jun-Jul 2018 is in v_censoring_bound and outputs/censoring_bound.csv.
 
 Usage: python analysis/build_db.py && python analysis/run_analysis.py
 """
@@ -27,7 +27,6 @@ IMG = ROOT / "docs" / "img"
 OUT.mkdir(exist_ok=True)
 IMG.mkdir(parents=True, exist_ok=True)
 
-WINDOW_END = "2018-05-01"   # last purchase month analysed (censoring cut)
 
 plt.rcParams.update({
     "figure.figsize": (9, 4.5), "figure.dpi": 110,
@@ -37,6 +36,7 @@ plt.rcParams.update({
 LATE_RED, OK_BLUE, ACCENT, GREY = "#c0392b", "#2c7fb0", "#e67e22", "#95a5a6"
 
 con = duckdb.connect(str(ROOT / "olist.duckdb"), read_only=True)
+WINDOW_END = str(con.execute("SELECT window_end FROM v_params").fetchone()[0])
 facts = con.execute(
     "SELECT * FROM v_order_facts WHERE purchase_month <= ?", [WINDOW_END]).df()
 seller_facts = con.execute(
@@ -89,7 +89,8 @@ ax.bar(x + w/2, [dt.loc[True, "avg_dispatch"], dt.loc[True, "avg_transit"]], w,
        label="late orders", color=LATE_RED)
 ax.set_xticks(x); ax.set_xticklabels(["dispatch\n(seller -> carrier)", "transit\n(carrier -> customer)"])
 ax.set_ylabel("average days"); ax.legend()
-ax.set_title("Where the delay sits: 3 extra days with the seller, 20 with the carrier")
+ax.set_title(f"Where the delay sits: {dt.loc[True, 'avg_dispatch'] - dt.loc[False, 'avg_dispatch']:.0f} extra days "
+             f"with the seller, {dt.loc[True, 'avg_transit'] - dt.loc[False, 'avg_transit']:.0f} with the carrier")
 for xi, v in zip(x - w/2, [dt.loc[False, "avg_dispatch"], dt.loc[False, "avg_transit"]]):
     ax.text(xi, v + 0.4, f"{v:.1f}", ha="center")
 for xi, v in zip(x + w/2, [dt.loc[True, "avg_dispatch"], dt.loc[True, "avg_transit"]]):
@@ -106,24 +107,31 @@ review_band = (rev.groupby("lateness_band", observed=True)
                     share_1_2_star=("review_score", lambda s: (s <= 2).mean())).round(3))
 split = (rev.groupby(["lateness_band", "review_before_delivery"], observed=True)
          .review_score.mean().unstack().round(2))
-split.columns = ["avg_review_written_after_delivery", "avg_review_written_before_delivery"]
+split = split.rename(columns={False: "avg_review_answered_after_delivery",
+                              True: "avg_review_answered_before_delivery"})
 review_band = review_band.join(split)
 pct_before = (rev.groupby("lateness_band", observed=True).review_before_delivery.mean() * 100).round(1)
-review_band["pct_reviews_written_before_delivery"] = pct_before
+review_band["pct_reviews_answered_before_delivery"] = pct_before
+late_rev = rev[rev.is_late]
+kpi["late_reviews_answered_before_delivery"] = round(float(late_rev.review_before_delivery.mean()), 3)
+kpi["late_reviews_survey_sent_before_delivery"] = round(float(late_rev.survey_sent_before_delivery.mean()), 3)
+kpi["avg_review_on_time"] = round(float(rev[~rev.is_late].review_score.mean()), 2)
+kpi["avg_review_late_answered_after_delivery"] = round(float(late_rev[~late_rev.review_before_delivery].review_score.mean()), 2)
+kpi["n_late_answered_after_delivery"] = int((~late_rev.review_before_delivery).sum())
 review_band.to_csv(OUT / "review_vs_lateness.csv")
 
 fig, ax = plt.subplots()
 xi = np.arange(len(review_band)); w = 0.35
-ax.bar(xi - w/2, review_band.avg_review_written_after_delivery, w,
-       label="review written after delivery", color=OK_BLUE)
-ax.bar(xi + w/2, review_band.avg_review_written_before_delivery, w,
-       label="review written before delivery", color=ACCENT)
+ax.bar(xi - w/2, review_band.avg_review_answered_after_delivery, w,
+       label="answered after delivery", color=OK_BLUE)
+ax.bar(xi + w/2, review_band.avg_review_answered_before_delivery, w,
+       label="answered before delivery", color=ACCENT)
 ax.axhline(rev.review_score.mean(), color=LATE_RED, ls="--", lw=1,
            label=f"all orders: {rev.review_score.mean():.2f}")
 ax.set_xticks(xi); ax.set_xticklabels(review_band.index.astype(str))
 ax.set_ylim(0, 5); ax.set_ylabel("average review score")
 ax.set_xlabel("delivery vs estimate"); ax.legend(fontsize=9)
-ax.set_title("Later delivery, lower reviews - and many late reviews are written before the parcel arrives")
+ax.set_title("Later delivery, lower reviews - and most late reviews are answered before the parcel arrives")
 fig.tight_layout(); fig.savefig(IMG / "review_vs_dayslate.png"); plt.close(fig)
 
 # ------------------------------------------------- seller performance + breach
@@ -199,7 +207,7 @@ ax2 = ax.twinx()
 ax2.plot(m.index, m.avg_review, marker="s", color=OK_BLUE, label="avg review")
 ax2.spines.right.set_visible(True); ax2.set_ylim(3.5, 4.6)
 ax.set_ylabel("late rate %"); ax2.set_ylabel("avg review")
-ax.set_title("Late rate and review score by month (censored Jun-Aug 2018 excluded)")
+ax.set_title(f"Late rate and review score by month (to {WINDOW_END[:7]}; Aug 2018+ excluded)")
 fig.autofmt_xdate(); fig.tight_layout()
 fig.savefig(IMG / "late_trend.png"); plt.close(fig)
 
@@ -239,7 +247,7 @@ forecast = pd.DataFrame(forecast_rows)
 forecast.to_csv(OUT / "forecast_vs_actual.csv", index=False)
 best = (forecast.groupby(["scope", "method"]).mape_pct.first()
         .groupby("scope").idxmin().apply(lambda t: t[1]))
-kpi["forecast_appendix"] = {"holdout": "Mar-May 2018",
+kpi["forecast_appendix"] = {"holdout": f"Mar 2018 - {pd.Timestamp(WINDOW_END):%b %Y}",
     "winning_method_by_scope": best.to_dict(),
     "mape_all_orders_pct": float(forecast[(forecast.scope == "all orders") &
         (forecast.method == best["all orders"])].mape_pct.iloc[0])}
@@ -249,7 +257,7 @@ sub = forecast[(forecast.scope == "all orders") & (forecast.method == best["all 
 ax.plot(hist.index, hist.orders, marker="o", color=OK_BLUE, label="actual")
 ax.plot(pd.to_datetime(sub.month), sub.forecast, marker="s", color=ACCENT,
         label=f"{best['all orders']} (MAPE {sub.mape_pct.iloc[0]}%)")
-ax.set_title("Monthly orders: forecast vs actual (holdout Mar-May 2018)")
+ax.set_title(f"Monthly orders: forecast vs actual (holdout Mar 2018 - {pd.Timestamp(WINDOW_END):%b %Y})")
 ax.set_ylabel("orders"); ax.legend()
 fig.autofmt_xdate(); fig.tight_layout()
 fig.savefig(IMG / "forecast_vs_actual.png"); plt.close(fig)

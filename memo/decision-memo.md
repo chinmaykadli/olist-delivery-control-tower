@@ -2,118 +2,130 @@
 
 **To:** Founder / Head of Marketplace Operations
 **From:** Chinmay Kadli
-**Data:** Olist public marketplace dataset, delivered orders Sep 2016 - May 2018
-(case study; 77,867 orders analysed)
+**Data:** Olist public marketplace dataset, delivered orders Sep 2016 - Jul 2018
+(case study; 90,119 orders analysed, 6.8% late)
 
 ## Decision needed
 
-Approve an 8-week pilot: a weekly seller review queue capped at 20 sellers,
-plus recalibrated delivery promises on the three worst routes.
-Do not throttle or remove sellers yet.
+Approve three changes, in this order:
+
+1. **Peak-aware promises with a guardrail:** widen delivery promises ahead of
+   known peaks, and automatically when in-transit ageing crosses 20%.
+2. **A 20-seller monthly call list** ranked by trailing late rate, run by
+   Seller Ops (about 5 calls a week).
+3. **Send the review survey on delivery confirmation**, not when the estimate
+   passes.
+
+Do not throttle or remove sellers.
 
 ## Bottom line
 
-- Late delivery is the clearest driver of bad reviews: the share of 1-2 star
-  ratings goes from 9% on time to 81% at 8-14 days late.
-- Most delay is carrier transit, not seller dispatch (21 extra days vs 3) -
+- Lateness is a peak problem first: three months hold 23% of orders but 51%
+  of late orders, and in those months promises got shorter while carriers got
+  slower.
+- Most delay is carrier transit, not seller dispatch (21 extra days vs 3), so
   seller penalties alone cannot fix it.
-- The seller early-warning score is not good enough to automate. Use it as a
-  conversation queue, not a penalty list.
+- The seller call list works modestly (1.59x random) and a one-line rule does
+  as well as a model. It is a conversation list, not a penalty list.
 
 ## What the data shows
 
-On-time rate is 92.5%. Late orders (7.5%, 5,862 orders) run 11.1 days late on
-average, against promises that are already generous (25.1 days promised vs
-13.4 actual on average).
+**Peaks.** Peak months (rule: marketplace late rate of 10% or more) were Nov
+2017, Feb 2018 and Mar 2018. In peaks the average promise was 23.6 days
+against 25.3 normally, while transit took 12.5 days against 8.7. In Feb-Mar
+2018 weekly promises fell from 27.7 to 22.9 days as the weekly late rate
+climbed to 26%. Why promises changed is not in the data.
 
-**Reviews.** Average review by lateness: on time 4.27; 1-3 days late 3.22;
-4-7 days 2.08; 8-14 days 1.65. One caveat that matters: the survey goes out
-when the estimated date passes, so 76% of late-order reviews were written
-before the parcel arrived. Reviews written after delivery average about 3.4
-for late orders - still well below the 4.27 on-time average, so lateness
-still costs roughly a star, but the headline 1.65 overstates it.
+**Early warning.** The share of parcels handed over 10-30 days ago and still
+undelivered, knowable every Monday, crossed 20% on 2018-02-19, 3 weeks before
+the late share of deliveries passed 10%.
 
-**Where lateness comes from.** Splitting the journey: late orders average
-6.0 days from purchase to carrier handover vs 3.1 on time (seller side), but
-29.5 days in transit vs 8.5 (carrier side). The worst sellers are real -
-the worst 10% of the 511 sellers with 30+ orders run a 19.2% late rate vs
-6.8% for the rest - but they cause only 13% of all late orders. And past
-lateness persists only at the tail: sellers in the worst 2017 decile ran
-17.8% late in 2017 and 14.1% in 2018, still the worst group, while everyone
-else sat at 6-12%.
+**Where lateness comes from.** Late orders take 6.0 vs 3.1 days from purchase
+to carrier handover, but 29.2 vs 8.1 days in transit. The worst 10%
+of the 581 sellers with 30+ orders run 17.2% late against 6.2% for the rest,
+and account for 13% of all late orders. Year-on-year persistence is moderate
+(Spearman 0.28 across 260 sellers).
 
-**Routes.** Worst seller-state to customer-state lanes: SP to AL 23.7% late,
-MA to SP 20.2%, SP to MA 18.9% - long hauls into the North-East with the
-longest transit times and highest freight.
+**Lanes.** Two lanes (SP -> SP and SP -> RJ) carry 38% of late orders.
+SP -> RJ is peak-driven: 7.5% late in normal months, 37.7% in peaks. SP -> AL
+is structural: only 75% on time at today's 32.9-day promise.
+
+**Promises.** The median order arrives 13 days early, yet long and peak lanes
+miss. Promises are mis-calibrated, not uniformly short.
+
+**Reviews and repeat purchase.** 72% of late-order reviews were answered
+before the parcel arrived. Late orders reviewed after arrival average 3.69
+stars against 4.28 on time. Customers whose first order was late repeat at
+2.92% vs 4.05% (adjusted odds ratio 0.80, 95% CI 0.65 to 0.97): roughly 29
+lost repeat orders. The cost of lateness shows up in reviews far more than in
+measurable repeat revenue.
 
 ## Options
 
 | Option | Late orders addressed | GMV exposed | Effort | Evidence it works | Main risk |
 |---|---|---|---|---|---|
-| Do nothing | 0 | none | none | - | review damage continues |
-| Review queue (top 20/month) | catches 26% of bad seller-months (hit rate) | none | ~2 ops hrs/week | 1.4x lift vs random on holdout | 3 in 4 flags are false alarms |
-| Throttle worst 5% (26 sellers) | 399, about 7% of late orders | R$276k GMV | low | weak: persistence is tail-only | removes sellers for a carrier problem |
+| Do nothing | 0 | none | none | - | review damage continues each peak |
+| Promise guardrail (+5 days in alarm weeks) | 727 late orders in backtest, 12% of all late orders | none | promise logic change | backtest on 13 alarm weeks | longer promises may cut conversion (not measured) |
+| Seller call list (20/month) | 34% of listed sellers turn bad vs 21% random | none | about 3 ops hours/month | out-of-time backtest, 1.59x lift | 2 in 3 calls go to sellers who would have been fine |
+| Throttle worst 5% (30 sellers) | 440, about 7% of late orders | R$310k GMV | low | weak: persistence is moderate | removes sellers for a mostly carrier problem |
 | Remove | same as throttle | all their GMV | irreversible | none | irreversible |
 
 ## Recommendation
 
-1. **Review queue, capped.** Seller Ops contacts the top-20 scored sellers
-   each week, focused on one ask: hand over within the shipping limit. The
-   score is a logistic model on trailing-90-day dispatch time, shipping-limit
-   breach rate, late rate, review, cancellations and volume - hit rate 26%
-   at top-20 vs an 18% base rate on months it was not trained on. Positive,
-   weak, honest: a conversation queue, never automation.
-2. **Route promises.** On the three worst routes, set customer estimates from
-   the historical 80th percentile of delivery time: SP-AL 36 days (today's
-   average promise misses a quarter of the time), SP-MA 29, MA-SP 26.
-3. **Fix the survey trigger.** Send the satisfaction survey on delivery
-   confirmation, not when the estimate passes. 76% of late-order reviews are
-   written pre-arrival; that both distorts the metric and invites angry
-   ratings the delivery might have softened.
-4. **Data fixes.** Assign owners for the five defects the quality checks
-   found (775 orders with no items, 443 payment mismatches, 610 uncategorised
-   products, 8 missing delivery dates, 646 delivered orders with no review).
+1. **Promises.** Widen promises ahead of the Black Friday peak, and add a
+   guardrail: when in-transit ageing is at or above 20% on a Monday, add days
+   to new promises that week and block promise cuts. Start with +3 days (469
+   late orders avoided in the backtest) and review conversion weekly. On
+   structural lanes such as SP -> AL, test +3 days (75% -> 78% on time); reaching
+   93% would need +12 days, which is a commercial decision, not an analytical one.
+2. **Seller call list.** Seller Ops calls the top 20 sellers each month by
+   trailing 90-day late rate, with a reason code (shipping-limit breach, slow
+   handover, low reviews, or lane/carrier). The one-line rule was chosen on
+   2017 and tested on Jan-Jul 2018: 34% of listed sellers turned bad
+   (95% CI 26% to 42%) against a 21% base. A 5-feature model did no better.
+3. **Survey trigger.** Send the satisfaction survey on delivery confirmation.
+   This changes the measurement, not the experience, so judge it on delivery
+   times and repeat purchase, not on the review score.
+4. **Data fixes.** Assign owners for the defects the quality checks found (775
+   orders with no items, 443 payment mismatches, 610 uncategorised products,
+   20 carrier handovers after delivery, 646 delivered orders with no review).
 
-## Pilot design (8 weeks)
+## Pilot design
 
-- Randomise flagged sellers into contact vs no-contact.
-- Primary metric: shipping-limit breach rate and late rate over 60 days.
-- Sizing: detecting a drop from 16% to 12% late needs ~1,200 orders per arm
-  (two-proportion test, 80% power); seller clustering raises that, so treat
-  as a floor.
-- Scale only if the contacted group improves and good sellers' satisfaction
-  holds.
+- **Promise guardrail:** run on one peak-driven lane (SP -> RJ) first, with a
+  matched lane as comparison; primary metric on-time rate, guardrail metric
+  conversion.
+- **Seller call list:** randomise listed sellers into call vs no call. Power
+  is the constraint: within-seller correlation (ICC 0.024) and about 15 orders
+  per seller in 60 days mean detecting a drop from 12.8% to 9.6% late needs
+  136 sellers per arm, about 14 months of intake at 10 per arm per month. An
+  8-week pilot can only detect a drop to 5.3%. So run the call list as
+  standard practice with monitoring, and test on the shipping-limit breach
+  rate, which moves faster, rather than claim a powered experiment.
+- Write the scale or stop rule down before the pilot starts.
 
 ## Cost of acting (assumptions labelled)
 
-- Ops time: ~10 minutes per seller call x 20/week (assumption).
-- Marketplace take rate: not in the dataset - R$276k is GMV exposed by the
-  throttle option, never revenue saved.
-- Longer promises on bad routes may cut conversion; not measurable here.
-  Mitigation: pilot on one route first.
+- Ops time: about 10 minutes per seller call x 20 a month (assumption).
+- Longer promises may cut conversion; the data has no conversion figures.
+- Take rate and margin are not in the data: GMV exposed is reported, never
+  revenue saved.
 
 ## Risks
 
-- 3 in 4 queue flags are false alarms - keep it a conversation.
-- Longer promises may hurt conversion.
-- The data ends mid-2018; Jun-Aug 2018 excluded as right-censored.
-- Associations, not causes: review scores have drivers beyond delivery.
+- The 20% ageing threshold was set in-sample on two episodes.
+- Promise backtests assume delivery times do not change with the promise.
+- Associations, not causes; carrier identity is not in the data.
 - One country, 2016-2018: the method transfers, the numbers may not.
 
 ## KPI tree
 
 - North star: share of 1-2 star reviews.
   - On-time rate against promise.
+    - In-transit ageing (carrier, leading).
+    - Transit days by lane (carrier).
     - Seller shipping-limit breach rate (seller).
-    - Transit days by route (carrier).
-    - Promise accuracy (platform).
-- Guardrails: GMV, seller retention.
+    - Promise slack (platform calibration).
+- Guardrails: GMV, conversion (when available), seller retention.
 
-The weekly report is these six numbers.
-
-## What to watch next
-
-Repeat-purchase behaviour by customers whose first order was late (deferred -
-repeat buying is rare in this data, may be too small to measure); carrier
-identity, which this dataset does not include and which would turn the
-transit finding into a carrier scorecard.
+The weekly report is in `outputs/weekly_kpis.csv` and on the operations dashboard.

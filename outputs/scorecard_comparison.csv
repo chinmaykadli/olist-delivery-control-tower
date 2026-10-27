@@ -1,0 +1,13 @@
+rule,k,picked,hits,hit_rate,ci_low,ci_high,base_rate,lift,share_of_bad_caught,auc,auc_ci_low,auc_ci_high
+A: sort by trailing late rate,5,35,12,0.343,0.208,0.508,0.211,1.623,0.033,0.58,0.543,0.613
+A: sort by trailing late rate,10,70,25,0.357,0.255,0.474,0.211,1.691,0.068,0.58,0.543,0.613
+A: sort by trailing late rate,20,140,47,0.336,0.263,0.417,0.211,1.59,0.128,0.58,0.543,0.613
+A: sort by trailing late rate,50,350,113,0.323,0.276,0.374,0.211,1.529,0.309,0.58,0.543,0.613
+B: sort by Wilson lower bound,5,35,14,0.4,0.256,0.564,0.211,1.894,0.038,0.578,0.546,0.61
+B: sort by Wilson lower bound,10,70,26,0.371,0.268,0.489,0.211,1.759,0.071,0.578,0.546,0.61
+B: sort by Wilson lower bound,20,140,50,0.357,0.283,0.439,0.211,1.691,0.137,0.578,0.546,0.61
+B: sort by Wilson lower bound,50,350,102,0.291,0.246,0.341,0.211,1.38,0.279,0.578,0.546,0.61
+C: logistic model (5 features),5,35,12,0.343,0.208,0.508,0.211,1.623,0.033,0.613,0.581,0.644
+C: logistic model (5 features),10,70,27,0.386,0.28,0.503,0.211,1.826,0.074,0.613,0.581,0.644
+C: logistic model (5 features),20,140,46,0.329,0.256,0.41,0.211,1.556,0.126,0.613,0.581,0.644
+C: logistic model (5 features),50,350,109,0.311,0.265,0.362,0.211,1.475,0.298,0.613,0.581,0.644

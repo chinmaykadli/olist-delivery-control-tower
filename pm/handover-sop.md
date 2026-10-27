@@ -1,39 +1,44 @@
-# Handover SOP — how to run and refresh the control tower
+# Handover SOP: how to run and refresh the control tower
 
-## Rebuild from scratch (four commands)
+## Rebuild from scratch
 ```bash
 git clone <this-repo> && cd olist-delivery-control-tower
 pip install -r requirements.txt
-./scripts/download_data.sh            # 8 CSVs from Olist's public mirror
-python analysis/build_db.py           # schema + quality checks + views
-python analysis/run_analysis.py       # metrics, charts, forecast
-python analysis/scorecard_backtest.py # scorecard + 2018 backtest
-python dashboard/build_dashboard.py   # docs/index.html
+make all     # data -> DB + 14 quality checks -> analyses -> dashboards -> number check
 ```
-Open `docs/index.html`, or enable GitHub Pages on `docs/` to serve it.
+`make all` stops if `scripts/check_numbers.py` finds a quoted number that no
+longer matches `outputs/`. Open `docs/index.html` and `docs/ops.html`, or
+serve `docs/` with GitHub Pages.
 
 ## Weekly operating rhythm (if this were live)
-1. **Monday 09:00:** refresh data load; read the quality-check output first.
-   Any new non-zero check goes on the RAID log before anything else.
-2. **Review queue:** run the scorecard; work the month's top-20 scored
-   sellers top-down by trailing GMV. Expected hit rate ~26% (2018 holdout,
-   1.4x base) - a conversation queue, not an auto-action list.
-3. **Leading indicator watch:** dispatch time is the strongest single signal
-   (largest model coefficient). Late orders average 6.0 days to carrier
-   handover vs 3.1 on time; shipping-limit breach rate is the
-   seller-controllable KPI.
-4. **Monthly:** re-run forecast; log MAPE against actuals; re-baseline if
-   MAPE drifts above 15% for two consecutive months.
+1. **Monday 09:00, data:** refresh the load and read the quality-check output
+   first. Any new non-zero check goes on the RAID log before anything else.
+2. **Monday, carrier watch:** read in-transit ageing (`v_transit_ageing`). At
+   20% or above, apply the promise guardrail to new orders that week and tell
+   CX. Two alarm weeks in a row: escalate to Logistics with the lane split
+   (`v_lane_variability`).
+3. **Seller call list:** work the month's 20 sellers from `v_exception_queue`,
+   about 5 a week, starting with "misses own shipping limit" and "slow
+   handover". Expected hit rate about a third (Jan-Jul 2018 backtest); it is a
+   conversation, not a penalty. Log outcome and status in the queue.
+4. **Weekly KPI report:** the six numbers in `v_weekly_kpis`.
+5. **Monthly:** re-run the forecast and log MAPE; widen promises ahead of any
+   forecast peak; re-check the queue rule against its baseline.
 
 ## Where each number comes from (data lineage)
 | Number | Source |
 |---|---|
-| Late rate, OTIF | `v_order_facts` / `v_monthly_metrics` |
-| Seller late rates, Pareto | `v_order_seller_facts` -> `outputs/seller_performance.csv` |
-| Route rates | `v_route_facts` -> `outputs/late_by_route.csv` |
-| Review by lateness | `outputs/review_vs_lateness.csv` |
-| Forecast + MAPE | `outputs/forecast_vs_actual.csv` |
-| Scorecard queue + lift | `outputs/scorecard_summary.json`, `outputs/scorecard_lift.csv` |
-| Dispatch vs transit split | `outputs/dispatch_vs_transit.csv` |
-| Seller persistence | `outputs/seller_persistence.csv` |
-| Route promise percentiles | `outputs/route_delivery_percentiles.csv` |
+| Late rate, on-time rate | `v_order_facts` / `v_monthly_metrics` -> `outputs/kpi_summary.json` |
+| Peak months, peak share | `v_month_flags` -> `outputs/lanes_summary.json` |
+| Weekly promise vs late | `outputs/weekly_promise_vs_late.csv` |
+| In-transit ageing, guardrail backtest | `v_transit_ageing`, `v_guardrail_backtest` |
+| Lane Pareto, lane types, promise curve | `v_lane_pareto`, `v_lane_variability`, `v_promise_curve` |
+| Promise accuracy | `v_promise_accuracy` -> `outputs/promise_accuracy.csv` |
+| Seller late rates, persistence | `v_order_seller_facts` -> `outputs/seller_performance.csv`, `lanes_summary.json` |
+| Seller call list backtest | `v_seller_features` -> `outputs/scorecard_summary.json`, `scorecard_comparison.csv`, `scorecard_per_month.csv` |
+| Exception queue | `v_exception_queue` -> `outputs/exception_queue.csv` |
+| Reviews by answer timing | `outputs/review_vs_lateness.csv`, `review_by_answer_timing.csv` |
+| Repeat-purchase cost | `outputs/lanes_summary.json` (logistic regression in `analysis/lanes_analysis.py`) |
+| Pilot power | `outputs/lanes_summary.json` (`pilot_*` keys) |
+| Censoring bound | `v_censoring_bound` -> `outputs/censoring_bound.csv` |
+| Forecast and MAPE | `outputs/forecast_vs_actual.csv` |

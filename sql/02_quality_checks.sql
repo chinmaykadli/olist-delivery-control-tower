@@ -52,3 +52,19 @@ FROM (
 SELECT 'delivered_before_purchase' AS check_name, COUNT(*) AS failures
 FROM orders WHERE order_status = 'delivered'
   AND order_delivered_customer_date < order_purchase_timestamp;
+
+-- Q12. Delivered orders handed to the carrier AFTER the customer received them
+SELECT 'carrier_after_customer_delivery' AS check_name, COUNT(*) AS failures
+FROM orders WHERE order_status = 'delivered'
+  AND order_delivered_carrier_date::date > order_delivered_customer_date::date;
+
+-- Q13. Delivered orders handed to the carrier BEFORE they were purchased
+SELECT 'carrier_before_purchase' AS check_name, COUNT(*) AS failures
+FROM orders WHERE order_status = 'delivered'
+  AND order_delivered_carrier_date::date < order_purchase_timestamp::date;
+
+-- Q14. Delivered orders with no carrier handover date
+SELECT 'delivered_orders_missing_carrier_date' AS check_name, COUNT(*) AS failures
+FROM orders WHERE order_status = 'delivered'
+  AND order_delivered_customer_date IS NOT NULL
+  AND order_delivered_carrier_date IS NULL;

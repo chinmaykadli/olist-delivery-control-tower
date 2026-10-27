@@ -1,0 +1,169 @@
+{
+  "window": "2016-09-01 to 2018-07-01",
+  "peak_rule": "marketplace late rate >= 10% in the purchase month",
+  "peak_months": [
+    "2017-11",
+    "2018-02",
+    "2018-03"
+  ],
+  "peak_share_of_orders": 0.231,
+  "peak_share_of_late_orders": 0.514,
+  "promise_days_normal_vs_peak": [
+    25.3,
+    23.6
+  ],
+  "transit_days_normal_vs_peak": [
+    8.7,
+    12.5
+  ],
+  "late_rate_normal_vs_peak": [
+    0.043,
+    0.151
+  ],
+  "feb_mar_2018_weekly_promise_range": [
+    27.7,
+    22.9
+  ],
+  "feb_mar_2018_weekly_late_peak": 0.263,
+  "ageing_alarm_threshold": 0.2,
+  "ageing_alarm_weeks": [
+    "2017-05-01",
+    "2017-05-08",
+    "2017-12-11",
+    "2017-12-18",
+    "2017-12-25",
+    "2018-01-01",
+    "2018-02-19",
+    "2018-03-05",
+    "2018-03-12",
+    "2018-03-19",
+    "2018-03-26",
+    "2018-04-02",
+    "2018-04-09"
+  ],
+  "ageing_first_alarm_2018": "2018-02-19",
+  "delivered_late_share_first_10pct_week_2018": "2018-03-12",
+  "ageing_lead_weeks_vs_delivered_signal": 3,
+  "guardrail_plus3d": {
+    "orders_covered": 17051,
+    "late_now": 1830,
+    "late_with_guardrail": 1361,
+    "late_avoided": 469,
+    "share_of_all_window_late_orders": 0.076
+  },
+  "guardrail_plus5d": {
+    "orders_covered": 17051,
+    "late_now": 1830,
+    "late_with_guardrail": 1103,
+    "late_avoided": 727,
+    "share_of_all_window_late_orders": 0.118
+  },
+  "guardrail_plus7d": {
+    "orders_covered": 17051,
+    "late_now": 1830,
+    "late_with_guardrail": 865,
+    "late_avoided": 965,
+    "share_of_all_window_late_orders": 0.157
+  },
+  "guardrail_alarm_weeks": 13,
+  "guardrail_caveat": "threshold set in-sample on two episodes; promise change assumed not to change delivery or conversion",
+  "top2_lanes": [
+    "SP -> SP",
+    "SP -> RJ"
+  ],
+  "top2_lanes_share_of_late": 0.375,
+  "lanes_for_half_of_late": 5,
+  "lanes_total": 405,
+  "lane SP -> RJ": {
+    "orders": 7623,
+    "late_normal": 0.075,
+    "late_peak": 0.377,
+    "type": "peak-driven",
+    "transit_p50": 10.0,
+    "transit_p90": 27.0
+  },
+  "lane SP -> SP": {
+    "orders": 27858,
+    "late_normal": 0.03,
+    "late_peak": 0.081,
+    "type": "mixed",
+    "transit_p50": 4.0,
+    "transit_p90": 10.0
+  },
+  "lane SP -> BA": {
+    "orders": 2166,
+    "late_normal": 0.104,
+    "late_peak": 0.245,
+    "type": "structural",
+    "transit_p50": 14.0,
+    "transit_p90": 29.0
+  },
+  "sp_al_promise_today_days": 32.9,
+  "sp_al_on_time_by_extra_days": {
+    "0": 0.749,
+    "3": 0.782,
+    "5": 0.84,
+    "10": 0.909,
+    "13": 0.955
+  },
+  "sp_al_days_to_reach_93pct": 12,
+  "median_promise_slack_days_window": 13.0,
+  "share_delivered_14plus_days_early": 0.453,
+  "repeat_rate_on_time_vs_late_first_order": [
+    0.0405,
+    0.0292
+  ],
+  "repeat_customers_n": [
+    51853,
+    3670
+  ],
+  "repeat_adjusted_odds_ratio_late": [
+    0.796,
+    0.651,
+    0.974
+  ],
+  "repeat_adjusted_p": 0.0266,
+  "repeat_marginal_effect_pp": [
+    -0.79,
+    -1.43,
+    -0.15
+  ],
+  "lost_repeat_orders_estimate": [
+    29,
+    6,
+    52
+  ],
+  "avg_order_value_brl": 159.9,
+  "cost_caveat": "observational; adjusted for customer state and first-purchase month only; GMV, not margin",
+  "persistence_spearman": [
+    0.28,
+    260
+  ],
+  "pilot_icc": 0.024,
+  "pilot_orders_per_seller_60d": 15,
+  "pilot_control_late_rate_queued_sellers": 0.128,
+  "pilot_target_late_rate": 0.096,
+  "pilot_orders_per_arm_iid": 1522,
+  "pilot_design_effect": 1.33,
+  "pilot_orders_per_arm_clustered": 2031,
+  "pilot_sellers_per_arm": 136,
+  "pilot_months_of_intake_at_10_per_arm": 14,
+  "pilot_8wk_sellers_per_arm": 20,
+  "pilot_8wk_minimum_detectable_late_rate": 0.053,
+  "censoring_jun_jul_2018": {
+    "2018-06": [
+      0.012,
+      0.019
+    ],
+    "2018-07": [
+      0.034,
+      0.045
+    ]
+  },
+  "exception_queue_reason_counts": {
+    "late in transit: lane or carrier": 12,
+    "misses own shipping limit": 4,
+    "low reviews, check product or service": 2,
+    "slow handover to carrier": 2
+  }
+}

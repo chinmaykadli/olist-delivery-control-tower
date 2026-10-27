@@ -4,3 +4,4 @@ numpy==2.2.6
 statsmodels==0.15.0
 matplotlib==3.10.9
 plotly==7.1.0
+scipy==1.18.1

@@ -1,0 +1,5 @@
+is_late,review_before_delivery,n,avg_review,sd,ci95
+False,False,83207,4.284,1.153,0.008
+True,False,1700,3.69,1.4,0.067
+True,True,4296,1.646,1.185,0.035
+False,True,291,4.03,1.296,0.149
