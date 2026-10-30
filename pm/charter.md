@@ -2,7 +2,7 @@
 
 **Sponsor (case-study role):** marketplace operations lead
 **Project manager / analyst:** Chinmay Kadli
-**Date:** 27 Oct 2026 · **Status:** delivered (analysis build); close-out review pending
+**Date:** 27 Oct 2026 · **Status:** delivered and closed out (27-28 Oct 2026)
 
 > Case-study note: stakeholder roles are simulated for portfolio purposes.
 > The data, code and numbers are real and reproducible from this repo.
