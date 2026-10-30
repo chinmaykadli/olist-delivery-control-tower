@@ -16,7 +16,7 @@ Format: story / acceptance criteria / status. Verified in uat-log.md.
      with the chart. ✅
 4. **As the analyst, I want data quality checks as runnable queries** so
    issues are found by the pipeline, not by a reader.
-   - AC: 11 checks in `sql/02_quality_checks.sql`, printed on every build;
+   - AC: 14 checks in `sql/02_quality_checks.sql`, printed on every build;
      non-zero results logged in the RAID log. ✅
 5. **As Seller Ops, I want a capped monthly call list tested on unseen
    months** so I can trust what it catches and see what it wrongly flags.
